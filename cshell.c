@@ -8,7 +8,7 @@
 
 void display_prompt()
 {
-	printf("($) ");
+	//printf("($) ");
 	fflush(stdout);
 }
 
