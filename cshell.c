@@ -20,7 +20,7 @@ void execute_command(const char *command)
 	int status;
 	char *args[MAX_COMMAND_LENGTH];
 	char *token;
-	int arg_count;
+	int arg_count = 0;
 
 	pid = fork();
 	if (pid == 0)
@@ -31,14 +31,18 @@ void execute_command(const char *command)
 			args[arg_count++] = token;
 			token = strtok(NULL, " ");
 		}
-		args[arg_count] = NULL;
-
-		if (execvp(args[0], args) == -1)
+		if (arg_count > 0)
 		{
-			perror(command);
-			exit(EXIT_FAILURE);
+			args[arg_count] = NULL;
+
+			if (execvp(args[0], args) == -1)
+			{
+				perror(command);
+				exit(EXIT_FAILURE);
+			}
+			exit(EXIT_SUCCESS);
 		}
-	}
+	 }
 	else if (pid > 0)
 	{
 		waitpid(pid, &status, 0);
