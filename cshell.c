@@ -65,7 +65,7 @@ int main()
 
 		if (fgets(command_line, sizeof(command_line), stdin) == NULL)
 		{
-			printf("\n");
+			
 			break;
 		}
 		input_length = strlen(command_line);
