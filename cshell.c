@@ -43,10 +43,6 @@ void execute_command(const char *command)
 	{
 		waitpid(pid, &status, 0);
 
-		if (WIFEXITED(status))
-			;
-		else
-			printf("Error: %s\n", command);
 	}
 	else
 	{
