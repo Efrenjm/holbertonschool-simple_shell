@@ -11,18 +11,29 @@ void display_prompt()
 	fflush(stdout);
 }
 
-int execute_command(char *command)
+int execute_command(char *command, char *envp[])
 {
 	pid_t pid;
 	int status;
-
+	char **args = (char **)malloc(2 * sizeof(char *));
+	
+	if (args == NULL)
+        {
+            perror("simple_shell");
+            _exit(EXIT_FAILURE);
+        }
+	args[0] = command;
+        args[1] = NULL;
+	
 	pid = fork();
-
 	if (pid == 0)
 	{
-		execlp(command, command, (char *)NULL);
-		perror("simple_shell");
-		exit(EXIT_FAILURE);
+		if (execve(command, args, envp) == -1)
+		{
+			perror("simple_shell");
+			free(args);
+			_exit(EXIT_FAILURE);
+		}
 	}
 	else if (pid > 0)
 	{
@@ -36,14 +47,19 @@ int execute_command(char *command)
 	else
 	{
 		perror("simple_shell");
-		exit(EXIT_FAILURE);
+		_exit(EXIT_FAILURE);
 	}
+	return (0);
 }
 
 int main()
 {
 	char command_line[MAX_COMMAND_LENGTH];
 	int status;
+	char *envp[] = {
+        "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+        NULL
+    };
 
 	while (1)
 	{
@@ -54,12 +70,13 @@ int main()
 
 		command_line[strcspn(command_line, "\n")] = '\0';
 
-		status = execute_command(command_line);
+		if (strcmp(command_line, "exit") == 0)
+			break;
+
+		status = execute_command(command_line, envp);
 
 		if (status != 0)
 			printf("simple_shell: command failed with status %d\n", status);
-		if (strcmp(command_line, "exit") == 0)
-			break;
 	}
 	return (0);
 }
