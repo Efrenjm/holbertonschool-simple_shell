@@ -33,17 +33,18 @@ void execute_command(const char *command)
 		}
 		args[arg_count] = NULL;
 
-		execvp(args[0], args);
-		perror(command);
-		exit(EXIT_FAILURE);
-
+		if (execvp(args[0], args) == -1)
+		{
+			perror(command);
+			exit(EXIT_FAILURE);
+		}
 	}
 	else if (pid > 0)
 	{
 		waitpid(pid, &status, 0);
 
 		if (WIFEXITED(status))
-			printf("\n");
+			;
 		else
 			printf("Error: %s\n", command);
 	}
@@ -57,7 +58,7 @@ void execute_command(const char *command)
 int main()
 {
 	char command_line[MAX_COMMAND_LENGTH];
-
+	size_t input_length;
 	while (1)
 	{
 		display_prompt();
@@ -67,8 +68,9 @@ int main()
 			printf("\n");
 			break;
 		}
-		command_line[strcspn(command_line, "\n")] = '\0';
-
+		input_length = strlen(command_line);
+		if (input_length > 0 && command_line[input_length - 1] == '\n')
+			command_line[input_length-1] = '\0';
 		if (strcmp(command_line, "exit") == 0)
 			break;
 
