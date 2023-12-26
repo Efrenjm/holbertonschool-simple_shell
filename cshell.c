@@ -80,7 +80,10 @@ int main(void)
 		if (input_length > 0 && command_line[input_length - 1] == '\n')
 			command_line[input_length - 1] = '\0';
 		if (strcmp(command_line, "exit") == 0)
+		{
+			return (2);
 			break;
+		}
 
 		execute_command(command_line);
 	}
