@@ -1,0 +1,56 @@
+
+### man_1_simple_shell
+
+```man
+SIMPLE_SHELL(1)                                        User Commands                                       SIMPLE_SHELL(1)
+
+NAME
+       simple_shell - a basic Unix command-line interpreter
+
+SYNOPSIS
+       simple_shell
+
+DESCRIPTION
+       simple_shell is a minimalistic shell that allows users to execute simple commands. It provides a basic command-line
+       interface for interacting with the operating system.
+
+OPTIONS
+       There are no specific options for simple_shell.
+
+COMMANDS
+       The following commands are supported:
+
+       exit    Exit the shell.
+
+       [command] [arguments]
+              Execute the specified command with optional arguments.
+
+EXAMPLES
+       To run the shell:
+
+           $ ./hsh
+
+       Once the shell is running, you can enter commands:
+
+           $ ls
+           file1.txt file2.txt
+           $ pwd
+           /home/user
+           $ echo "Hello, World!"
+           Hello, World!
+           $ exit
+
+AUTHOR
+       The simple_shell was developed by Efrén Jiménez.
+
+BUGS
+       Report any bugs or issues to efrenjimenez_96@hotmail.com.
+
+SEE ALSO
+       For more information, visit the GitHub repository: https://github.com/Efrenjm/holbertonschool-simple_shell
+
+COPYRIGHT
+       This is free software; see the source for copying conditions.  There is NO warranty; not even for MERCHANTABILITY
+       or FITNESS FOR A PARTICULAR PURPOSE.
+
+

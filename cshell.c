@@ -5,15 +5,20 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-extern char **environ;
-
 #define MAX_COMMAND_LENGTH 1024
-
-void display_prompt()
+/**
+ * display_prompt - Flushes new prompt
+ * Return: nothing
+ */
+void display_prompt(void)
 {
 	fflush(stdout);
 }
-
+/**
+ * execute_command - Execute the unix command
+ * @command: command to execute
+ * Return: nothing
+ */
 void execute_command(const char *command)
 {
 	pid_t pid;
@@ -42,7 +47,7 @@ void execute_command(const char *command)
 			}
 			exit(EXIT_SUCCESS);
 		}
-	 }
+	}
 	else if (pid > 0)
 	{
 		waitpid(pid, &status, 0);
@@ -54,23 +59,26 @@ void execute_command(const char *command)
 		_exit(EXIT_FAILURE);
 	}
 }
-
-int main()
+/**
+ * main - main thread to be ran
+ * Return: 0
+ */
+int main(void)
 {
 	char command_line[MAX_COMMAND_LENGTH];
 	size_t input_length;
+
 	while (1)
 	{
 		display_prompt();
 
 		if (fgets(command_line, sizeof(command_line), stdin) == NULL)
 		{
-			
 			break;
 		}
 		input_length = strlen(command_line);
 		if (input_length > 0 && command_line[input_length - 1] == '\n')
-			command_line[input_length-1] = '\0';
+			command_line[input_length - 1] = '\0';
 		if (strcmp(command_line, "exit") == 0)
 			break;
 
